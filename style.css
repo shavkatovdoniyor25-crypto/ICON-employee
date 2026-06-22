@@ -135,8 +135,8 @@ header {
 .card-photo {
   width: 50%;
   height: 100%;
-  object-fit: cover;
-  object-position: center top;
+  object-fit: contain;
+  object-position: center center;
   background: var(--border);
   display: block;
   flex-shrink: 0;
