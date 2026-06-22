@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Сотрудники ICON Education</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">⬡</span>
+        <div>
+          <div class="logo-title">СОТРУДНИКИ</div>
+          <div class="logo-sub">ICON EDUCATION</div>
+        </div>
+      </div>
+      <button id="btn-add" class="btn-primary">+ Добавить сотрудника</button>
+    </div>
+  </header>
+
+  <!-- SEARCH + STATS -->
+  <div class="toolbar">
+    <input type="text" id="search" placeholder="Поиск по имени, должности, отделу…" />
+    <span id="count-label" class="count-label">0 сотрудников</span>
+  </div>
+
+  <!-- CARD GRID -->
+  <main id="grid" class="grid">
+    <div class="empty-state" id="empty-state">
+      <div class="empty-icon">◻</div>
+      <p>База пуста.<br>Добавьте первого сотрудника.</p>
+    </div>
+  </main>
+
+  <!-- MODAL: ADD / EDIT -->
+  <div id="modal-overlay" class="modal-overlay hidden">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="modal-title">Новый сотрудник</h2>
+        <button id="modal-close" class="btn-icon">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- PHOTO -->
+        <div class="form-section">
+          <div class="photo-upload-area" id="photo-area">
+            <img id="photo-preview" src="" alt="" class="hidden" />
+            <div id="photo-placeholder">
+              <span>📷</span>
+              <span>Фото 3×4</span>
+            </div>
+            <input type="file" id="photo-input" accept="image/*" class="hidden" />
+          </div>
+        </div>
+
+        <!-- PERSONAL -->
+        <div class="form-section">
+          <div class="section-label">Личные данные</div>
+          <div class="form-grid-2">
+            <div class="field">
+              <label>Полное имя *</label>
+              <input type="text" id="f-name" placeholder="Фамилия Имя Отчество" />
+            </div>
+            <div class="field">
+              <label>Дата рождения *</label>
+              <input type="date" id="f-dob" />
+            </div>
+          </div>
+        </div>
+
+        <!-- PASSPORT -->
+        <div class="form-section">
+          <div class="section-label">Паспортные данные</div>
+          <div class="form-grid-2">
+            <div class="field">
+              <label>Серия и номер</label>
+              <input type="text" id="f-passport-num" placeholder="AB 1234567" />
+            </div>
+            <div class="field">
+              <label>ПИНФЛ</label>
+              <input type="text" id="f-pinfl" placeholder="14 цифр" maxlength="14" />
+            </div>
+            <div class="field">
+              <label>Кем выдан</label>
+              <input type="text" id="f-issued-by" placeholder="МВД Узбекистана" />
+            </div>
+            <div class="field">
+              <label>Дата истечения</label>
+              <input type="date" id="f-passport-exp" />
+            </div>
+          </div>
+        </div>
+
+        <!-- WORK -->
+        <div class="form-section">
+          <div class="section-label">Работа в ICON</div>
+          <div class="form-grid-2">
+            <div class="field">
+              <label>Должность в ICON *</label>
+              <input type="text" id="f-position" placeholder="Менеджер по продажам" />
+            </div>
+            <div class="field">
+              <label>Род деятельности / Отдел</label>
+              <input type="text" id="f-department" placeholder="Отдел маркетинга" />
+            </div>
+          </div>
+          <div class="field">
+            <label>Опыт работы</label>
+            <textarea id="f-experience" rows="3" placeholder="Краткое описание предыдущих мест работы и стажа…"></textarea>
+          </div>
+          <div class="field">
+            <label>Достижения</label>
+            <textarea id="f-achievements" rows="3" placeholder="Ключевые достижения, награды, проекты…"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button id="btn-cancel" class="btn-ghost">Отмена</button>
+        <button id="btn-save" class="btn-primary">Сохранить</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: VIEW CARD -->
+  <div id="view-overlay" class="modal-overlay hidden">
+    <div class="modal modal-view">
+      <button id="view-close" class="btn-icon view-close-btn">✕</button>
+      <div class="view-body">
+        <div class="view-left">
+          <div class="view-photo-wrap">
+            <img id="view-photo" src="" alt="" />
+          </div>
+          <div class="view-actions">
+            <button id="view-edit" class="btn-ghost btn-sm">Редактировать</button>
+            <button id="view-delete" class="btn-danger btn-sm">Удалить</button>
+          </div>
+        </div>
+        <div class="view-right">
+          <h2 id="view-name"></h2>
+          <div id="view-position" class="view-position"></div>
+
+          <div class="view-section">
+            <div class="view-section-label">Личные данные</div>
+            <div class="view-row"><span>Дата рождения</span><span id="view-dob"></span></div>
+          </div>
+
+          <div class="view-section">
+            <div class="view-section-label">Паспортные данные</div>
+            <div class="view-row"><span>Серия / номер</span><span id="view-passport-num"></span></div>
+            <div class="view-row"><span>ПИНФЛ</span><span id="view-pinfl"></span></div>
+            <div class="view-row"><span>Кем выдан</span><span id="view-issued-by"></span></div>
+            <div class="view-row"><span>Действителен до</span><span id="view-passport-exp"></span></div>
+          </div>
+
+          <div class="view-section">
+            <div class="view-section-label">Опыт работы</div>
+            <div id="view-experience" class="view-text"></div>
+          </div>
+
+          <div class="view-section">
+            <div class="view-section-label">Достижения</div>
+            <div id="view-achievements" class="view-text"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>
